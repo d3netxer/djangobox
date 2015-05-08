@@ -1,0 +1,42 @@
+---
+- hosts: all
+  vars_files:
+    - vars.yml
+  sudo: yes
+  tasks:
+  - name: add repositories 
+    apt_repository: "'repo=ppa:ubuntugis/ppa' 'state=present'"
+#  - name: add repositories 2
+#    apt_repository: "'repo=ppa:kakrueger/osm-unstable' 'state=present'"
+#  - name: add repositories 3
+#    apt_repository: "'repo=ppa:developmentseed/mapbox' 'state=present'"
+  - name: Install required system packages.
+    apt: pkg={{ item }} state=installed update-cache=yes
+    with_items: 
+      - "{{ system_packages }}"
+  - name: install django
+    pip: name=django
+  - name: install psycopg2
+    pip: name=psycopg2
+  - name: install django-geojson
+    pip: name=django-geojson
+  - name: install requests
+    pip: name=requests
+  - name: install pyyaml
+    pip: name=pyyaml
+  - name: install django-leaflet
+    pip: name=django-leaflet
+
+#  - name: clone repo 
+#    git: clone=yes repo=https://github.com/joto/osmium dest=/opt/osmium 
+#  - name: clone repo 2
+#    git: clone=yes repo=https://github.com/MaZderMind/osm-history-splitter dest=/opt/osm-history-splitter
+#  - name: clone repo 3
+#    git: clone=yes repo=https://github.com/gravitystorm/openstreetmap-carto dest=/opt/openstreetmap-carto
+#  - name: clone repo 4
+#    git: clone=yes repo=https://github.com/d3netxer/osm-history dest=/opt/osm-history
+#  - name: clone repo 5
+#    git: clone=yes repo=https://github.com/state-hiu/cybergis-scripts.git dest=/opt/cybergis-scripts.git
+
+
+

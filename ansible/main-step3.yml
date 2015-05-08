@@ -1,0 +1,42 @@
+---
+#play 1
+- hosts: all
+  vars_files:
+    - vars.yml
+  sudo: yes
+  #roles:
+  #- { role: rvm_io.rvm1-ruby, tags: ruby, sudo: True }
+  tasks:
+  - name: clone hos-django repo 
+    git: clone=yes repo=https://github.com/d3netxer/hos-django dest=/opt/hos-django 
+  - name: change permissions
+    file: path=/opt owner=vagrant group=vagrant state=directory recurse=yes
+  - name: export DJANGO_SETTINGS_MODULE to bashrc
+    lineinfile: dest=~/.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
+  - name: export repo to PYTHONPATH
+    lineinfile: dest=~/.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
+
+
+#play 2
+#- hosts: all
+#  sudo: no
+#  gather_facts: no
+
+#  tasks:
+#  - name: bundler install
+#    command: "bundle install chdir=/opt/osm-history/"
+
+#play 3
+- hosts: all
+  sudo_user: postgres
+  sudo: yes
+  gather_facts: no
+
+  tasks:
+  - name: create database
+    postgresql_db: name=hos1
+  - name: create vagrant postgres user
+    postgresql_user: db=hos1 name=vagrant password=vagrant priv=ALL role_attr_flags=CREATEDB,CREATEUSER
+
+
+

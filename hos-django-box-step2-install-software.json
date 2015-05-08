@@ -1,0 +1,67 @@
+{
+  "builders": [
+    {
+  "type": "virtualbox-ovf",
+  "vm_name": "hosdjangobox-step2",
+  "source_path": "output-virtualbox-iso/hosdjangobox.ovf",
+  "output_directory":"output-virtualbox-ovf2/",
+  "ssh_username": "vagrant",
+  "ssh_password": "vagrant",
+  "ssh_wait_timeout": "30s",
+  "shutdown_command": "echo 'packer' | sudo -S shutdown -P now",
+      "vboxmanage": [
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--memory",
+          "1024"
+        ],
+        [
+          "modifyvm",
+          "{{.Name}}",
+          "--cpus",
+          "1"
+        ]
+      ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "ansible-local",
+      "playbook_file": "ansible/main-step2.yml",
+      "playbook_dir":"ansible/",
+      "role_paths": [
+        "ansible/roles/"
+      ]
+    }
+  ],
+  "post-processors": [
+    {
+      "keep_input_artifact": true,
+      "output": "step2-box/hosdjangobox-step2.box",
+      "type": "vagrant"
+    }
+  ],
+  "variables": {
+    "cleanup_pause": "",
+    "cm": "nocm",
+    "cm_version": "",
+    "custom_script": ".",
+    "ftp_proxy": "{{env `ftp_proxy`}}",
+    "headless": "",
+    "http_proxy": "{{env `http_proxy`}}",
+    "https_proxy": "{{env `https_proxy`}}",
+    "install_vagrant_key": true,
+    "iso_checksum": "73a758a2353f21e3016be8135411342a605bccac",
+    "iso_name": "ubuntu-12.04.4-alternate-amd64.iso",
+    "iso_path": "iso",
+    "iso_url": "http://releases.ubuntu.com/12.04/ubuntu-12.04.4-alternate-amd64.iso",
+    "no_proxy": "{{env `no_proxy`}}",
+    "rsync_proxy": "{{env `rsync_proxy`}}",
+    "ssh_password": "vagrant",
+    "ssh_username": "vagrant",
+    "update": "false",
+    "version": "0.1.0"
+  }
+}
+
