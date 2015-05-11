@@ -4,12 +4,13 @@
 #
 # Values for CM can be:
 #   'nocm'               -- build a box without a configuration management tool
+#   'ansible'            -- build a box with Ansible
 #   'chef'               -- build a box with Chef
 #   'chefdk'             -- build a box with Chef Development Kit
 #   'salt'               -- build a box with Salt
 #   'puppet'             -- build a box with Puppet
 #
-# Values for CM_VERSION can be (when CM is chef|chefdk|salt|puppet):
+# Values for CM_VERSION can be (when CM is ansible|chef|chefdk|salt|puppet):
 #   'x.y.z'              -- build a box with version x.y.z of Chef
 #   'x.y'                -- build a box with version x.y of Salt
 #   'x.y.z-apuppetlabsb' -- build a box with package version of Puppet
@@ -19,6 +20,7 @@
 # to set variables in pairs with Packer (and Packer does not support
 # multi-value variables).
 CM_VERSION=${CM_VERSION:-latest}
+SSH_USER=${SSH_USERNAME:-vagrant}
 
 #
 # Provisioner installs.
@@ -48,8 +50,8 @@ install_chef_dk()
     fi
 
     echo "==> Adding Chef Development Kit and Ruby to PATH"
-    echo 'eval "$(chef shell-init bash)"' >> /home/vagrant/.bash_profile
-    chown vagrant /home/vagrant/.bash_profile
+    echo 'eval "$(chef shell-init bash)"' >> /home/${SSH_USER}/.bash_profile
+    chown vagrant /home/${SSH_USER}/.bash_profile
 }
 
 install_salt()
@@ -83,11 +85,30 @@ install_puppet()
     rm -f ${DEB_NAME}
 }
 
+install_ansible()
+{
+    echo "==> Installing Ansible"
+    if [[ ${CM_VERSION} == 'latest' ]]; then
+        echo "Installing latest Ansible version"
+        # assuming 14.04; if older need python-software-properties
+        apt-get install -y software-properties-common
+        apt-add-repository -y ppa:ansible/ansible
+        apt-get update
+    else
+        echo "Installing Ansibles stable version"
+    fi
+    apt-get install -y ansible
+}
+
 #
 # Main script
 #
 
 case "${CM}" in
+  'ansible')
+    install_ansible
+    ;;
+
   'chef')
     install_chef
     ;;

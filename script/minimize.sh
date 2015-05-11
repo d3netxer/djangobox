@@ -1,5 +1,8 @@
 #!/bin/bash -eux
 
+echo "==> Disk usage before minimization"
+df -h
+
 echo "==> Installed packages before cleanup"
 dpkg --get-selections | grep -v deinstall
 
@@ -43,9 +46,10 @@ echo "==> Removing man pages"
 rm -rf /usr/share/man/*
 echo "==> Removing APT files"
 find /var/lib/apt -type f | xargs rm -f
-echo "==> Removing anything in /usr/src"
-rm -rf /usr/src/*
 echo "==> Removing any docs"
 rm -rf /usr/share/doc/*
 echo "==> Removing caches"
 find /var/cache -type f -exec rm -rf {} \;
+
+echo "==> Disk usage after cleanup"
+df -h
