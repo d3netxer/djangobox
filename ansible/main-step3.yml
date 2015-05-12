@@ -13,8 +13,16 @@
     file: path=/opt owner=vagrant group=vagrant state=directory recurse=yes
   - name: export DJANGO_SETTINGS_MODULE to bashrc
     lineinfile: dest=/home/vagrant/.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
-  - name: export repo to PYTHONPATH
+  - name: export PYTHONPATH to bashrc
     lineinfile: dest=/home/vagrant/.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
+  - name: export DJANGO_SETTINGS_MODULE to bash.bashrc
+    lineinfile: dest=/etc/bash.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
+  - name: export PYTHONPATH bash.bashrc
+    lineinfile: dest=/etc/bash.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
+  - name: export DJANGO_SETTINGS_MODULE to env
+    lineinfile: dest=/etc/environment line="DJANGO_SETTINGS_MODULE=hos2.settings"
+  - name: export PYTHONPATH env
+    lineinfile: dest=/etc/environment line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
 #  - name: Install required system packages 2.
 #    apt: pkg={{ item }} state=installed update-cache=yes
 #    with_items: 
