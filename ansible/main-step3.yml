@@ -2,7 +2,7 @@
 #play 1
 - hosts: all
   vars_files:
-    - vars.yml
+    - vars_step3.yml
   sudo: yes
   #roles:
   #- { role: rvm_io.rvm1-ruby, tags: ruby, sudo: True }
@@ -15,6 +15,10 @@
     lineinfile: dest=~/.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
   - name: export repo to PYTHONPATH
     lineinfile: dest=~/.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
+  - name: Install required system packages 2.
+    apt: pkg={{ item }} state=installed update-cache=yes
+    with_items: 
+      - "{{ system_packages }}"
 
 
 #play 2

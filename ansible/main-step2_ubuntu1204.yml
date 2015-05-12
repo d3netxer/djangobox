@@ -5,25 +5,11 @@
   sudo: yes
   tasks:
   - name: add repositories 
-    apt_repository: "'repo=ppa:ubuntugis/ubuntugis-unstable' 'state=present'"
-  - name: add repositories 2
-    apt_repository: "'repo=ppa:kakrueger/osm-unstable' 'state=present'"
-  - name: add repositories 3
-    apt_repository: "'repo=ppa:developmentseed/mapbox' 'state=present'"
-#  - name: add repositories 4
-#    apt_repository: "'repo=ppa:sharpie/for-science' 'state=present'"
-#  - name: add repositories 5
-#    apt_repository: "'repo=ppa:sharpie/postgis-stable' 'state=present'"
-  - name: add repositories 6
-    apt_repository: "'repo=ppa:rael-gc/rvm' 'state=present'"
-  - name: export line1 to sources list
-    lineinfile: dest=/etc/apt/sources.list line="deb http://qgis.org/ubuntugis trusty main"
-  - name: export line2 to sources list
-    lineinfile: dest=/etc/apt/sources.list line="deb-src http://qgis.org/ubuntugis trusty main"
-  - name: export line3 to sources list
-    lineinfile: dest=/etc/apt/sources.list line="deb http://ppa.launchpad.net/ubuntugis/ubuntugis-unstable/ubuntu trusty main"
-  - name: update apt cache
-    apt: update_cache=yes
+    apt_repository: "'repo=ppa:ubuntugis/ppa' 'state=present'"
+#  - name: add repositories 2
+#    apt_repository: "'repo=ppa:kakrueger/osm-unstable' 'state=present'"
+#  - name: add repositories 3
+#    apt_repository: "'repo=ppa:developmentseed/mapbox' 'state=present'"
   - name: Install required system packages.
     apt: pkg={{ item }} state=installed update-cache=yes
     with_items: 
@@ -40,8 +26,6 @@
     pip: name=pyyaml
   - name: install django-leaflet
     pip: name=django-leaflet
-  - name: install qgis
-    command: "sudo apt-get install qgis -y --force-yes"
 
 #  - name: clone repo 
 #    git: clone=yes repo=https://github.com/joto/osmium dest=/opt/osmium 
