@@ -12,9 +12,9 @@
   - name: change permissions
     file: path=/opt owner=vagrant group=vagrant state=directory recurse=yes
   - name: export DJANGO_SETTINGS_MODULE to bashrc
-    lineinfile: dest=~/.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
+    lineinfile: dest=/home/vagrant/.bashrc line="DJANGO_SETTINGS_MODULE=hos2.settings"
   - name: export repo to PYTHONPATH
-    lineinfile: dest=~/.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
+    lineinfile: dest=/home/vagrant/.bashrc line="PYTHONPATH=/opt/hos-django/:$PYTHONPATH"
 #  - name: Install required system packages 2.
 #    apt: pkg={{ item }} state=installed update-cache=yes
 #    with_items: 
