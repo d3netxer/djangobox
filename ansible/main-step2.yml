@@ -40,6 +40,8 @@
     pip: name=pyyaml
   - name: install django-leaflet
     pip: name=django-leaflet
+  - name: install gunicorn
+    pip: name=gunicorn
   - name: install qgis
     command: "sudo apt-get install qgis -y --force-yes"
 

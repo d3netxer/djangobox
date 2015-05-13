@@ -29,5 +29,6 @@ system_packages:
   - gdal-bin
   - libpq-dev
   - libgdal-dev
+  - supervisor
 
 
