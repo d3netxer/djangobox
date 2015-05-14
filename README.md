@@ -1,6 +1,6 @@
 #djangobox
 
-The main purposed of this box is to create an environment that runs Django. It also clones the hos-django repository; to make it easy to set-up the development environment for Hope One Source projects.
+The main purposed of this box is to create an environment that runs Django. It also clones the hos-django repository; to make it easy to set-up the development environment for [HopeOneSource](http://www.hopeonesource.org/) projects.
 
 #####The final vagrant box is on [ATLAS](https://atlas.hashicorp.com/omnitom/boxes/hosdjangobox) and is named omnitom/hosdjangobox
 #####Install Vagrant and see [Getting Started](http://docs.vagrantup.com/v2/getting-started/index.html) 
